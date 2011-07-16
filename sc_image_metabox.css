@@ -1,0 +1,31 @@
+div.sc_image {
+    float:left;
+    border: 2px solid black;
+    position:relative;
+    margin: 10px;
+    padding: 5px;
+    background: #d4d2d2;
+}
+div.sc_image a {
+    position:absolute;
+    top:5px;
+    background: white;
+}
+div.sc_image a.sc_delete {
+    right:5px;
+}
+div.sc_image a.sc_thumb {
+    left:5px;
+}
+
+
+div.sc_thumb {
+    border:  2px solid green;
+    background: green;
+}
+
+/* >> The Magnificent CLEARFIX << */
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.clearfix { display: inline-block; }
+* html .clearfix { height: 1%; } /* Hides from IE-mac \*/
+.clearfix { display: block; }
