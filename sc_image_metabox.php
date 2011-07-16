@@ -15,7 +15,7 @@ function sc_image_admin_init()
         global $current_user;
         get_currentuserinfo();
         define('SC_IMAGE_PLUGIN_PATH', plugins_url('sc_image_metabox'));
-        add_meta_box("sc_image_metabox", "Images", "sc_image_metabox", "project", "normal", "high");
+        add_meta_box("sc_image_metabox", "Images", "sc_image_metabox", "post", "normal", "high");
         wp_enqueue_script('swfobject');
         wp_enqueue_script('uploadify', SC_IMAGE_PLUGIN_PATH . '/uploadify/jquery.uploadify.v2.1.4.min.js', array('jquery'));
         wp_enqueue_script('sc_image_metabox', SC_IMAGE_PLUGIN_PATH . '/sc_image_metabox.js', array('jquery', 'uploadify'));
