@@ -3,7 +3,7 @@ div.sc_image {
     border: 2px solid black;
     position:relative;
     margin: 10px;
-    padding: 5px;
+    padding: 2px;
     background: #d4d2d2;
 }
 div.sc_image a {
@@ -18,10 +18,19 @@ div.sc_image a.sc_thumb {
     left:5px;
 }
 
-
 div.sc_thumb {
-    border:  2px solid green;
-    background: green;
+    border: 5px solid #66cc00;
+}
+
+div.sc_thumb .featured_marker {
+    background-image: url('featured.png');
+    background-repeat: no-repeat;
+    z-index: 999;
+    width: 65px;
+    height: 65px;
+    position: absolute;
+    top: -4px;
+    left: -4px;
 }
 
 /* >> The Magnificent CLEARFIX << */

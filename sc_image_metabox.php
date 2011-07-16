@@ -47,8 +47,9 @@ function sc_image_metabox($callback)
 
 <script id="sc_image_tmpl" type="text/x-jquery-tmpl">
     <div class="${class}" data-id="${id}">
+        <div class="featured_marker"></div>
         <a class="sc_delete" href="#">Delete</a>
-        <a class="sc_thumb" href="#">Primary</a>
+        <a class="sc_thumb" href="#">Featured</a>
         <img src="${src}" width="${width}" height="${height}" alt="thumbnail" />
     </div>
 </script>
