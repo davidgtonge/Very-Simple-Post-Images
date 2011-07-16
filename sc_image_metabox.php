@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: SC Image Metabox
+Plugin Name: Very Simple Post Images
 Plugin URI: http://www.simplecreativity.co.uk
 Description: Image Metabox using uploadify
 Version: 0.1
@@ -14,7 +14,7 @@ function sc_image_admin_init()
     if (is_admin()) {
         global $current_user;
         get_currentuserinfo();
-        define('SC_IMAGE_PLUGIN_PATH', plugins_url('sc_image_metabox'));
+        define('SC_IMAGE_PLUGIN_PATH', plugins_url('Very-Simple-Post-Images'));
         add_meta_box("sc_image_metabox", "Images", "sc_image_metabox", "post", "normal", "high");
         wp_enqueue_script('swfobject');
         wp_enqueue_script('uploadify', SC_IMAGE_PLUGIN_PATH . '/uploadify/jquery.uploadify.v2.1.4.min.js', array('jquery'));
