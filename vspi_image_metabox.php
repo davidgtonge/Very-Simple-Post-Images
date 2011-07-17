@@ -3,9 +3,9 @@
 Plugin Name: Very Simple Post Images
 Plugin URI: http://www.simplecreativity.co.uk
 Description: Image Metabox using uploadify
-Version: 0.1
-Author: Dave Tonge
-Author URI: http://www.simplecreativity.co.uk
+Version: 0.2
+Author: Dave Tonge & David Laing
+Author URI: http://www.simplecreativity.co.uk & http://davidlaing.com
 */
 
 
@@ -131,16 +131,10 @@ function vspi_image_ajax()
                 return $attach_id;
             }
 
-            function vspi_check_thumb()
-            {
-                $postid = $_REQUEST['postid'];
-                if (get_post_meta($postid, '_thumbnail_id')) return false;
-                return true;
+            if (!empty($_FILES)) {
+                $image_id = insert_attachment('Filedata', $_REQUEST['post_id']);
             }
 
-            if (!empty($_FILES)) {
-                $image_id = insert_attachment('Filedata', $_REQUEST['post_id'], vspi_check_thumb());
-            }
             echo $image_id;
 
             break;
@@ -164,28 +158,28 @@ function vspi_get_images($post_id)
         'numberposts' => -1,
         'post_status' => NULL
     );
-    $attachs = get_posts($args);
+    $attachments = get_posts($args);
 
-    if (!isset($thumbnail_id)) $thumbnail_id = $attachs[0]->ID;
+    if (!isset($thumbnail_id)) $thumbnail_id = $attachments[0]->ID;
 
     $vspi_images = array();
     $i = 1;
-    foreach ($attachs as $att) {
-        $thumbnail = wp_get_attachment_image_src($att->ID, 'thumbnail');
-        $medium = wp_get_attachment_image_src($att->ID, 'medium');
-        $large = wp_get_attachment_image_src($att->ID, 'large');
-        $full = wp_get_attachment_image_src($att->ID, 'full');
-        $sc = wp_get_attachment_image_src($att->ID, 'vspi_thumb');
+    foreach ($attachments as $attachment) {
+        $thumbnail = wp_get_attachment_image_src($attachment->ID, 'thumbnail');
+        $medium = wp_get_attachment_image_src($attachment->ID, 'medium');
+        $large = wp_get_attachment_image_src($attachment->ID, 'large');
+        $full = wp_get_attachment_image_src($attachment->ID, 'full');
+        $sc = wp_get_attachment_image_src($attachment->ID, 'vspi_thumb');
 
         $vspi_images[$i] = array(
-            'id' => $att->ID,
+            'id' => $attachment->ID,
             'large' => $large,
             'medium' => $medium,
             'thumbnail' => $thumbnail,
             'full' => $full,
             'sc' => $sc
         );
-        if ($thumbnail_id == $att->ID) $vspi_images[$i]['thumb'] = true;
+        if ($thumbnail_id == $attachment->ID) $vspi_images[$i]['thumb'] = true;
         $i++;
     }
     return $vspi_images;
@@ -200,22 +194,22 @@ function vspi_get_thumbs($post_id)
         'numberposts' => -1,
         'post_status' => NULL
     );
-    $attachs = get_posts($args);
+    $attachments = get_posts($args);
 
-    if (!isset($thumbnail_id)) $thumbnail_id = $attachs[0]->ID;
+    if (!isset($thumbnail_id)) $thumbnail_id = $attachments[0]->ID;
 
     $vspi_images = array();
     $i = 1;
-    foreach ($attachs as $att) {
-        $thumbnail = wp_get_attachment_image_src($att->ID, 'thumbnail');
+    foreach ($attachments as $attachment) {
+        $thumbnail = wp_get_attachment_image_src($attachment->ID, 'thumbnail');
         $vspi_images[$i] = array(
-            'id' => $att->ID,
+            'id' => $attachment->ID,
             'src' => $thumbnail[0],
             'width' => $thumbnail[1],
             'height' => $thumbnail[2]
         );
-        if ($thumbnail_id == $att->ID) {
-            $vspi_images[$i]['class'] = 'vspi_image vspi_thumb';
+        if ($thumbnail_id == $attachment->ID) {
+            $vspi_images[$i]['class'] = 'vspi_image vspi_is_featured_image';
         } else {
             $vspi_images[$i]['class'] = 'vspi_image';
         }

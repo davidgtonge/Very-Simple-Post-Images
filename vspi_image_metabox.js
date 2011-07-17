@@ -38,8 +38,7 @@ function scImageReload() {
     var holder = jQuery('#vspi_image_box')
     if(holder.length > 0){
     var post_id = holder.data('post_id');
-    var getUrl = vspi_image_globals.ajax_url + '?action=vspi_image&vspi_action=reload&_wpnonce=' +
-        vspi_image_globals.vspi_nonce + '&id=' + post_id;
+    var getUrl = vspi_image_globals.ajax_url + '?action=vspi_image&vspi_action=reload&_wpnonce=' + vspi_image_globals.vspi_nonce + '&id=' + post_id;
     jQuery.getJSON(getUrl, '', function(response) {
         holder.empty();
         jQuery.each(response, function(a, b) {

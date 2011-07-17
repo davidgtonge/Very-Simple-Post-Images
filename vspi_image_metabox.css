@@ -18,11 +18,11 @@ div.vspi_image a.vspi_thumb {
     left:5px;
 }
 
-div.vspi_thumb {
+div.vspi_is_featured_image {
     border: 5px solid #66cc00;
 }
 
-div.vspi_thumb .featured_marker {
+div.vspi_is_featured_image .featured_marker {
     background-image: url('featured.png');
     background-repeat: no-repeat;
     z-index: 999;
