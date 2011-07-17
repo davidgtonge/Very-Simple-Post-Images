@@ -9,47 +9,47 @@ Author URI: http://www.simplecreativity.co.uk
 */
 
 
-function sc_image_admin_init()
+function vspi_image_admin_init()
 {
     if (is_admin()) {
         global $current_user;
         get_currentuserinfo();
-        define('SC_IMAGE_PLUGIN_PATH', plugins_url('Very-Simple-Post-Images'));
-        add_meta_box("sc_image_metabox", "Images", "sc_image_metabox", "post", "normal", "high");
+        define('vspi_image_PLUGIN_PATH', plugins_url('Very-Simple-Post-Images'));
+        add_meta_box("vspi_image_metabox", "Images", "vspi_image_metabox", "post", "normal", "high");
         wp_enqueue_script('swfobject');
-        wp_enqueue_script('uploadify', SC_IMAGE_PLUGIN_PATH . '/uploadify/jquery.uploadify.v2.1.4.min.js', array('jquery'));
-        wp_enqueue_script('sc_image_metabox', SC_IMAGE_PLUGIN_PATH . '/sc_image_metabox.js', array('jquery', 'uploadify'));
-        wp_enqueue_style('sc_image_metabox', SC_IMAGE_PLUGIN_PATH . '/sc_image_metabox.css');
+        wp_enqueue_script('uploadify', vspi_image_PLUGIN_PATH . '/uploadify/jquery.uploadify.v2.1.4.min.js', array('jquery'));
+        wp_enqueue_script('vspi_image_metabox', vspi_image_PLUGIN_PATH . '/vspi_image_metabox.js', array('jquery', 'uploadify'));
+        wp_enqueue_style('vspi_image_metabox', vspi_image_PLUGIN_PATH . '/vspi_image_metabox.css');
         wp_enqueue_script('jquery_tmpl', 'http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js', array('jquery'));
-        wp_enqueue_style('uploadify', SC_IMAGE_PLUGIN_PATH . '/uploadify/uploadify.css');
-        wp_localize_script('sc_image_metabox', 'sc_image_globals',
+        wp_enqueue_style('uploadify', vspi_image_PLUGIN_PATH . '/uploadify/uploadify.css');
+        wp_localize_script('vspi_image_metabox', 'vspi_image_globals',
                            array(
                                 'ajax_url' => admin_url('admin-ajax.php'),
-                                'sc_nonce' => wp_create_nonce('sc_nonce'),
-                                'url' => SC_IMAGE_PLUGIN_PATH,
+                                'vspi_nonce' => wp_create_nonce('vspi_nonce'),
+                                'url' => vspi_image_PLUGIN_PATH,
                                 'user' => $current_user->ID
                            )
         );
     }
 }
 
-add_action("admin_init", "sc_image_admin_init");
+add_action("admin_init", "vspi_image_admin_init");
 
-function sc_image_metabox($callback)
+function vspi_image_metabox($callback)
 {
     global $post;
     ?>
 
-<input type="file" name="sc_image" id="sc_image"/>
-<div id="sc_image_box" data-post_id="<?php echo $post->ID; ?>">
+<input type="file" name="vspi_image" id="vspi_image"/>
+<div id="vspi_image_box" data-post_id="<?php echo $post->ID; ?>">
 </div>
 <div class="clearfix"></div>
 
-<script id="sc_image_tmpl" type="text/x-jquery-tmpl">
+<script id="vspi_image_tmpl" type="text/x-jquery-tmpl">
     <div class="${class}" data-id="${id}">
         <div class="featured_marker"></div>
-        <a class="sc_delete" href="#">Delete</a>
-        <a class="sc_thumb" href="#">Featured</a>
+        <a class="vspi_delete" href="#">Delete</a>
+        <a class="vspi_thumb" href="#">Featured</a>
         <img src="${src}" width="${width}" height="${height}" alt="thumbnail" />
     </div>
 </script>
@@ -60,25 +60,25 @@ function sc_image_metabox($callback)
 }
 
 
-add_action('wp_ajax_sc_image', 'sc_image_ajax');
-add_action('wp_ajax_nopriv_sc_image', 'sc_image_ajax');
+add_action('wp_ajax_vspi_image', 'vspi_image_ajax');
+add_action('wp_ajax_nopriv_vspi_image', 'vspi_image_ajax');
 
-function sc_image_ajax()
+function vspi_image_ajax()
 {
-    $sc_action = $_REQUEST['sc_action'];
+    $vspi_action = $_REQUEST['vspi_action'];
 
     //Needed because flash doesn't show as logged in
-    if ($sc_action === 'uploadify') {
-        wp_set_current_user($_REQUEST['sc_user']);
+    if ($vspi_action === 'uploadify') {
+        wp_set_current_user($_REQUEST['vspi_user']);
     }
-    check_ajax_referer('sc_nonce', '_wpnonce');
+    check_ajax_referer('vspi_nonce', '_wpnonce');
 
-    switch ($sc_action) {
+    switch ($vspi_action) {
 
         case "reload":
 
             $post_id = $_REQUEST['id'];
-            $response = sc_get_thumbs($post_id);
+            $response = vspi_get_thumbs($post_id);
             echo json_encode($response);
 
             break;
@@ -131,7 +131,7 @@ function sc_image_ajax()
                 return $attach_id;
             }
 
-            function sc_check_thumb()
+            function vspi_check_thumb()
             {
                 $postid = $_REQUEST['postid'];
                 if (get_post_meta($postid, '_thumbnail_id')) return false;
@@ -139,7 +139,7 @@ function sc_image_ajax()
             }
 
             if (!empty($_FILES)) {
-                $image_id = insert_attachment('Filedata', $_REQUEST['post_id'], sc_check_thumb());
+                $image_id = insert_attachment('Filedata', $_REQUEST['post_id'], vspi_check_thumb());
             }
             echo $image_id;
 
@@ -155,7 +155,7 @@ function sc_image_ajax()
 * The featured image has the property "featured"
 */
 
-function sc_get_images($post_id)
+function vspi_get_images($post_id)
 {
     if (has_post_thumbnail($post_id)) $thumbnail_id = get_post_thumbnail_id($post_id);
     $args = array(
@@ -168,16 +168,16 @@ function sc_get_images($post_id)
 
     if (!isset($thumbnail_id)) $thumbnail_id = $attachs[0]->ID;
 
-    $sc_images = array();
+    $vspi_images = array();
     $i = 1;
     foreach ($attachs as $att) {
         $thumbnail = wp_get_attachment_image_src($att->ID, 'thumbnail');
         $medium = wp_get_attachment_image_src($att->ID, 'medium');
         $large = wp_get_attachment_image_src($att->ID, 'large');
         $full = wp_get_attachment_image_src($att->ID, 'full');
-        $sc = wp_get_attachment_image_src($att->ID, 'sc_thumb');
+        $sc = wp_get_attachment_image_src($att->ID, 'vspi_thumb');
 
-        $sc_images[$i] = array(
+        $vspi_images[$i] = array(
             'id' => $att->ID,
             'large' => $large,
             'medium' => $medium,
@@ -185,13 +185,13 @@ function sc_get_images($post_id)
             'full' => $full,
             'sc' => $sc
         );
-        if ($thumbnail_id == $att->ID) $sc_images[$i]['thumb'] = true;
+        if ($thumbnail_id == $att->ID) $vspi_images[$i]['thumb'] = true;
         $i++;
     }
-    return $sc_images;
+    return $vspi_images;
 }
 
-function sc_get_thumbs($post_id)
+function vspi_get_thumbs($post_id)
 {
     if (has_post_thumbnail($post_id)) $thumbnail_id = get_post_thumbnail_id($post_id);
     $args = array(
@@ -204,23 +204,23 @@ function sc_get_thumbs($post_id)
 
     if (!isset($thumbnail_id)) $thumbnail_id = $attachs[0]->ID;
 
-    $sc_images = array();
+    $vspi_images = array();
     $i = 1;
     foreach ($attachs as $att) {
         $thumbnail = wp_get_attachment_image_src($att->ID, 'thumbnail');
-        $sc_images[$i] = array(
+        $vspi_images[$i] = array(
             'id' => $att->ID,
             'src' => $thumbnail[0],
             'width' => $thumbnail[1],
             'height' => $thumbnail[2]
         );
         if ($thumbnail_id == $att->ID) {
-            $sc_images[$i]['class'] = 'sc_image sc_thumb';
+            $vspi_images[$i]['class'] = 'vspi_image vspi_thumb';
         } else {
-            $sc_images[$i]['class'] = 'sc_image';
+            $vspi_images[$i]['class'] = 'vspi_image';
         }
         $i++;
     }
-    return $sc_images;
+    return $vspi_images;
 
 }

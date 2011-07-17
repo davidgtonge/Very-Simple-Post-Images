@@ -1,4 +1,4 @@
-div.sc_image {
+div.vspi_image {
     float:left;
     border: 2px solid black;
     position:relative;
@@ -6,23 +6,23 @@ div.sc_image {
     padding: 2px;
     background: #d4d2d2;
 }
-div.sc_image a {
+div.vspi_image a {
     position:absolute;
     top:5px;
     background: white;
 }
-div.sc_image a.sc_delete {
+div.vspi_image a.vspi_delete {
     right:5px;
 }
-div.sc_image a.sc_thumb {
+div.vspi_image a.vspi_thumb {
     left:5px;
 }
 
-div.sc_thumb {
+div.vspi_thumb {
     border: 5px solid #66cc00;
 }
 
-div.sc_thumb .featured_marker {
+div.vspi_thumb .featured_marker {
     background-image: url('featured.png');
     background-repeat: no-repeat;
     z-index: 999;

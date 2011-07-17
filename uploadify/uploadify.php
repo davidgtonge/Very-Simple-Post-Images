@@ -47,14 +47,14 @@ function insert_attachment($file_handler,$post_id,$setthumb='false') {
   if ($setthumb) update_post_meta($post_id,'_thumbnail_id',$attach_id);
   return $attach_id;
 }
-function sc_check_thumb(){
+function vspi_check_thumb(){
    $postid = $_REQUEST['postid'];
     if(get_post_meta($postid,'_thumbnail_id')) return false;
     return true;
   }
 
 if (!empty($_FILES)) {
-    $image_id = insert_attachment('Filedata', $_REQUEST['postid'], sc_check_thumb());
+    $image_id = insert_attachment('Filedata', $_REQUEST['postid'], vspi_check_thumb());
 }
 echo $image_id;
 

@@ -6,16 +6,16 @@
  */
 
 jQuery(document).ready(function() {
-    var post_id = jQuery('#sc_image_box').data('post_id');
-    var sc_image = jQuery('#sc_image');
-    if(sc_image.length > 0){
-    sc_image.uploadify({
-        'uploader'  : sc_image_globals.url + '/uploadify/uploadify.swf',
-        'script'    : sc_image_globals.ajax_url,
-        'cancelImg' : sc_image_globals.url + '/uploadify/cancel.png',
+    var post_id = jQuery('#vspi_image_box').data('post_id');
+    var vspi_image = jQuery('#vspi_image');
+    if(vspi_image.length > 0){
+    vspi_image.uploadify({
+        'uploader'  : vspi_image_globals.url + '/uploadify/uploadify.swf',
+        'script'    : vspi_image_globals.ajax_url,
+        'cancelImg' : vspi_image_globals.url + '/uploadify/cancel.png',
         'auto'      : true,
         'multi'       : true,
-        'scriptData' : {'post_id': post_id, 'action': 'sc_image','sc_user':sc_image_globals.user, 'sc_action': 'uploadify', '_wpnonce': sc_image_globals.sc_nonce },
+        'scriptData' : {'post_id': post_id, 'action': 'vspi_image','vspi_user':vspi_image_globals.user, 'vspi_action': 'uploadify', '_wpnonce': vspi_image_globals.vspi_nonce },
         'onError'     : function (event, ID, fileObj, errorObj) {
             alert(errorObj.type + ' Error: ' + errorObj.info);
             //console.log(event,ID,fileObj,errorObj);
@@ -35,22 +35,22 @@ jQuery(document).ready(function() {
 
 
 function scImageReload() {
-    var holder = jQuery('#sc_image_box')
+    var holder = jQuery('#vspi_image_box')
     if(holder.length > 0){
     var post_id = holder.data('post_id');
-    var getUrl = sc_image_globals.ajax_url + '?action=sc_image&sc_action=reload&_wpnonce=' +
-        sc_image_globals.sc_nonce + '&id=' + post_id;
+    var getUrl = vspi_image_globals.ajax_url + '?action=vspi_image&vspi_action=reload&_wpnonce=' +
+        vspi_image_globals.vspi_nonce + '&id=' + post_id;
     jQuery.getJSON(getUrl, '', function(response) {
         holder.empty();
         jQuery.each(response, function(a, b) {
-            if (b) jQuery('#sc_image_tmpl').tmpl(b).appendTo('#sc_image_box');
+            if (b) jQuery('#vspi_image_tmpl').tmpl(b).appendTo('#vspi_image_box');
         });
-        jQuery('a.sc_delete').click(function() {
+        jQuery('a.vspi_delete').click(function() {
              var parent = jQuery(this).parent();
             var id = parent.data('id');   
 
-            jQuery.post(sc_image_globals.ajax_url,
-                {action: 'sc_image', sc_action:'delete_image', _wpnonce: sc_image_globals.sc_nonce, 'attach_id': id},
+            jQuery.post(vspi_image_globals.ajax_url,
+                {action: 'vspi_image', vspi_action:'delete_image', _wpnonce: vspi_image_globals.vspi_nonce, 'attach_id': id},
                 function(response) {
                     console.log(response);
                 },
@@ -59,12 +59,12 @@ function scImageReload() {
             parent.fadeOut("slow");
             return false
         });
-        jQuery('a.sc_thumb').click(function() {
+        jQuery('a.vspi_thumb').click(function() {
             var parent = jQuery(this).parent();
-            var post_id = jQuery('#sc_image_box').data('post_id');
+            var post_id = jQuery('#vspi_image_box').data('post_id');
             var id = parent.data('id');
-            jQuery.post(sc_image_globals.ajax_url,
-                {action:"sc_image", sc_action: "set_thumbnail", post_id: post_id, thumbnail_id: id, _wpnonce : sc_image_globals.sc_nonce},
+            jQuery.post(vspi_image_globals.ajax_url,
+                {action:"vspi_image", vspi_action: "set_thumbnail", post_id: post_id, thumbnail_id: id, _wpnonce : vspi_image_globals.vspi_nonce},
                 function(response) {
                     console.log(response);
                     scImageReload();
