@@ -14,7 +14,7 @@ to do with post images in a metabox right next to the post content.
 * Select the featured image
 
 ##Screencast demo
-[<img src="http://content.screencast.com/users/mrdavidlaing/folders/Jing/media/ddef4400-d1f4-47d6-8678-14ecd7a769ca/00000063.png"](http://www.youtube.com/watch?v=uE85rU6VyoU)
+[<img src="http://content.screencast.com/users/mrdavidlaing/folders/Jing/media/ddef4400-d1f4-47d6-8678-14ecd7a769ca/00000063.png">](http://www.youtube.com/watch?v=uE85rU6VyoU)
 
 
 ##We need your help
