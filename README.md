@@ -9,10 +9,11 @@ users of Wordpress.
 This plugin tackles that problem by embedding the most common operations that you want
 to do with post images in a metabox right next to the post content.
 
+* Upload multiple images
+* Delete an image
+* Select the featured image
 
-*Upload multiple images
-*Delete an image
-*Select the featured image
+<iframe width="425" height="349" src="http://www.youtube.com/embed/uE85rU6VyoU?hl=en&fs=1" frameborder="0" allowfullscreen></iframe>
 
 ##We need your help
 
