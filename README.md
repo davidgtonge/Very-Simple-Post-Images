@@ -13,7 +13,9 @@ to do with post images in a metabox right next to the post content.
 * Delete an image
 * Select the featured image
 
-<iframe width="425" height="349" src="http://www.youtube.com/embed/uE85rU6VyoU?hl=en&fs=1" frameborder="0" allowfullscreen></iframe>
+##Screencast demo
+[<img src="http://content.screencast.com/users/mrdavidlaing/folders/Jing/media/ddef4400-d1f4-47d6-8678-14ecd7a769ca/00000063.png"](http://www.youtube.com/watch?v=uE85rU6VyoU)
+
 
 ##We need your help
 
