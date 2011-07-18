@@ -17,17 +17,32 @@ function vspi_image_admin_init()
         define('vspi_image_PLUGIN_PATH', plugins_url('Very-Simple-Post-Images'));
         add_meta_box("vspi_image_metabox", "Images", "vspi_image_metabox", "post", "normal", "high");
         wp_enqueue_script('swfobject');
-        wp_enqueue_script('uploadify', vspi_image_PLUGIN_PATH . '/uploadify/jquery.uploadify.v2.1.4.min.js', array('jquery'));
-        wp_enqueue_script('vspi_image_metabox', vspi_image_PLUGIN_PATH . '/vspi_image_metabox.js', array('jquery', 'uploadify'));
+        wp_enqueue_script('swfupload-all');
+        //wp_enqueue_script('swfupload-handlers');
+        //wp_enqueue_script('uploadify', vspi_image_PLUGIN_PATH . '/uploadify/jquery.uploadify.v2.1.4.min.js', array('jquery'));
+        wp_enqueue_script('vspi_image_metabox', vspi_image_PLUGIN_PATH . '/vspi_image_metabox.js', array('jquery'));
         wp_enqueue_style('vspi_image_metabox', vspi_image_PLUGIN_PATH . '/vspi_image_metabox.css');
         wp_enqueue_script('jquery_tmpl', 'http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js', array('jquery'));
         wp_enqueue_style('uploadify', vspi_image_PLUGIN_PATH . '/uploadify/uploadify.css');
+     
+
+        $max_upload_size =  wp_max_upload_size();
         wp_localize_script('vspi_image_metabox', 'vspi_image_globals',
                            array(
                                 'ajax_url' => admin_url('admin-ajax.php'),
                                 'vspi_nonce' => wp_create_nonce('vspi_nonce'),
                                 'url' => vspi_image_PLUGIN_PATH,
-                                'user' => $current_user->ID
+                                'user' => $current_user->ID,
+                                'button_text' => __('Select Files'),
+                                'button_image_url' => includes_url('images/upload.png?ver=20100531'),
+                                'upload_url' => admin_url('async-upload.php'),
+                               'flash_url' => includes_url('js/swfupload/swfupload.swf'),
+                               'file_types' => apply_filters('upload_file_glob', '*.*'),
+                               "_wpnonce" => wp_create_nonce('media-form'),
+                               "auth_cookie" => (is_ssl() ? $_COOKIE[SECURE_AUTH_COOKIE] : $_COOKIE[AUTH_COOKIE]),
+                               "logged_in_cookie" => $_COOKIE[LOGGED_IN_COOKIE],
+                               'file_size_limit' => $max_upload_size . 'b',
+                               'upload_success_handler' => apply_filters( 'swfupload_success_handler', 'uploadSuccess' )
                            )
         );
     }
@@ -38,7 +53,31 @@ add_action("admin_init", "vspi_image_admin_init");
 function vspi_image_metabox($callback)
 {
     global $post;
+    $upload_size_unit = $max_upload_size =  wp_max_upload_size();
+    $sizes = array( 'KB', 'MB', 'GB' );
+	for ( $u = -1; $upload_size_unit > 1024 && $u < count( $sizes ) - 1; $u++ )
+		$upload_size_unit /= 1024;
+	if ( $u < 0 ) {
+		$upload_size_unit = 0;
+		$u = 0;
+	} else {
+		$upload_size_unit = (int) $upload_size_unit;
+	}
     ?>
+
+<div id="flash-upload-ui" class="hide-if-no-js">
+<?php do_action('pre-flash-upload-ui'); ?>
+
+	<div>
+	<?php _e( 'Choose files to upload' ); ?>
+	<div id="vspi-flash-browse-button"></div>
+	<span><input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" /></span>
+	</div>
+	<p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), $upload_size_unit, $sizes[$u] ); ?></p>
+<?php do_action('post-flash-upload-ui'); ?>
+	<p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
+</div>
+
 
 <input type="file" name="vspi_image" id="vspi_image"/>
 <div id="vspi_image_box" data-post_id="<?php echo $post->ID; ?>">

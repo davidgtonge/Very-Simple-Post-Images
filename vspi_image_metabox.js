@@ -5,10 +5,57 @@
  * Time: 12:46
  */
 
-jQuery(document).ready(function() {
+
+jQuery(document).ready(function($) {
     var post_id = jQuery('#vspi_image_box').data('post_id');
+	var vspi_swfu;
+SWFUpload.onload = function() {
+	var settings = {
+			button_text: vspi_image_globals.button_text,
+			button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif; font-size: 11px; text-shadow: 0 1px 0 #FFFFFF; color:#464646; }',
+			button_height: "23",
+			button_width: "132",
+			button_text_top_padding: 3,
+			button_image_url: vspi_image_globals.button_image_url,
+			button_placeholder_id: "vspi-flash-browse-button",
+			upload_url : vspi_image_globals.upload_url,
+			flash_url : vspi_image_globals.flash_url,
+			file_post_name: "async-upload",
+			file_types: vspi_image_globals.file_types,
+			post_params : {
+                'auth_cookie' : vspi_image_globals.auth_cookie,
+                'logged_in_cookie' : vspi_image_globals.logged_in_cookie,
+                '_wpnonce' : vspi_image_globals._wpnonce,
+                'post_id' : post_id
+            },
+			file_size_limit : vspi_image_globals.file_size_limit,
+			debug: false,
+			upload_start_handler : vspi_start_handler,
+			upload_success_handler : vspi_success_handler
+		};
+		vspi_swfu = new SWFUpload(settings);
+};
+
+    var vspi_handler = function (fileObj, serverData){
+        console.log(fileObj);
+        console.log(serverData);
+    };
+    var vspi_start_handler = function (file) {
+      console.log('start');
+	return true;
+};
+
+// The uploadSuccess event handler.  This function variable is assigned to upload_success_handler in the settings object
+var vspi_success_handler = function (file, server_data, receivedResponse) {
+	console.log(file, server_data, receivedResponse);
+    //alert("The file " + file.name + " has been delivered to the server. The server responded with " + server_data);
+};
+
+
+
     var vspi_image = jQuery('#vspi_image');
     if(vspi_image.length > 0){
+    /*
     vspi_image.uploadify({
         'uploader'  : vspi_image_globals.url + '/uploadify/uploadify.swf',
         'script'    : vspi_image_globals.ajax_url,
@@ -29,6 +76,7 @@ jQuery(document).ready(function() {
             scImageReload();
         }
     });
+    */
     scImageReload();
     }
 });
