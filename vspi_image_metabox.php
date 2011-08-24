@@ -46,7 +46,7 @@ function vspi_image_metabox($callback)
 <div class="clearfix"></div>
 
 <script id="vspi_image_tmpl" type="text/x-jquery-tmpl">
-    <div class="${class}" data-id="${id}">
+    <div class="${className}" data-id="${id}">
         <div class="featured_marker"></div>
         <a class="vspi_delete" href="#">Delete</a>
         <a class="vspi_thumb" href="#">Featured</a>
@@ -209,9 +209,9 @@ function vspi_get_thumbs($post_id)
             'height' => $thumbnail[2]
         );
         if ($thumbnail_id == $attachment->ID) {
-            $vspi_images[$i]['class'] = 'vspi_image vspi_is_featured_image';
+            $vspi_images[$i]['className'] = 'vspi_image vspi_is_featured_image';
         } else {
-            $vspi_images[$i]['class'] = 'vspi_image';
+            $vspi_images[$i]['className'] = 'vspi_image';
         }
         $i++;
     }
