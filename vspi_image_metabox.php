@@ -115,7 +115,7 @@ function vspi_image_ajax()
 
             echo "uploadify";
 
-            function insert_attachment($file_handler, $post_id, $setthumb = 'false')
+            function insert_attachment($file_handler, $post_id, $setthumb = false)
             {
 
                 // check to make sure its a successful upload
